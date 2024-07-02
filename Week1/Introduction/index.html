@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+
+        function sum (){
+            let a = 10 + 5;
+            return a;
+        }
+
+        const App = () => {
+            var name = "sakshi";
+            var age = 22;
+            let nullvalue = null;
+            let undef;
+            const bool = false;
+            let arrCars = ['Audi','BMW','Nexa','Honda'];
+            let arr = [1,2,3,4,5]
+            let obj = {name:"alexa",age:30}
+            const [,,animal] = ['horse','cat','cow']
+            console.log(animal);
+          
+         return( 
+            <>
+                <h1>Learn JSX</h1>
+                <p>String : {name}</p>
+                <p> Number :  {age}</p>
+                <p> undefined : {undef}</p>
+                <p> Null :  {nullvalue}</p>
+                <p> Boolean :  {bool.toString()}</p>
+                <p>Calling Functon : {sum()}</p>
+                <p><h2>Array of Cars:</h2> {arr.map((num) => <p>{num}</p>)}</p>
+                <p>obj Age: {obj.age}</p>
+                <p><h3>List of Cars:</h3><ul>{arrCars.map((car,index) => <li key={index}>{car}</li>)}</ul></p>
+            </>
+            );
+        }
+        ReactDOM.createRoot(document.getElementById("root")).render(<App />)
+    </script>
+</body>
+</html>

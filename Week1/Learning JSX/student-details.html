@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>React</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const App = () => {
+            let Student = {name:"alexa",age:30}
+            let StudArr = [
+            {name:"alexa",age:30},
+            {name:"tom",age:33},
+            {name:"doald",age:45},
+            {name:"fam",age:27},
+            {name:"moye",age:22}
+            ];
+         return( 
+            <>
+                <h1>Student Table</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Age</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {StudArr.map((student,index) => (
+                            <tr key = {index}>
+                                <td>{student.name}</td>
+                                <td>{student.age}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </>
+            );
+        }
+        ReactDOM.createRoot(document.getElementById("root")).render(<App />)
+    </script>
+</body>
+</html>

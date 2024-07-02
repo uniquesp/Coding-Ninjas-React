@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <title>React App</title>
+</head>
+
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    let capacity = 10;
+    let seatsLeft = 10;
+
+    const App = () => {
+      const [customers, setCustomers] = useState([]);
+      const [guestCount, setGuestCount] = useState("");
+      const [name, setName] = useState("");
+      const [phone, setPhone] = useState("");
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        if (parseInt(guestCount) > seatsLeft) {
+          alert("Guest count exceeds capacity.");
+          return;
+        }
+        if (customers.some(customer => customer.name === name)) {
+          alert("Customer already exists.");
+          return;
+        }
+
+        const newCustomer = {
+          count: guestCount,
+          name,
+          phone,
+          checkin: new Date().toLocaleString(),
+          checkout: "",
+          status: "Click to Checkout"
+        };
+
+        setCustomers([newCustomer, ...customers]);
+        seatsLeft -= parseInt(guestCount);
+        setGuestCount("");
+        setName("");
+        setPhone("");
+      };
+
+      const handleCheckout = (index) => {
+        const updatedCustomers = customers.map((customer, idx) => {
+          if (idx === index) {
+            customer.checkout = new Date().toLocaleString();
+            customer.status = "Checked Out";
+            seatsLeft += parseInt(customer.count);
+          }
+          return customer;
+        });
+        setCustomers(updatedCustomers);
+      };
+
+      const handleDelete = (index) => {
+        const customer = customers[index];
+        if (!customer.checkout) {
+          seatsLeft += parseInt(customer.count);
+        }
+        setCustomers(customers.filter((_, idx) => idx !== index));
+      };
+
+      return (
+        <div className="App" style={{ textAlign: "center" }}>
+          <div>
+            <h2>Total Capacity: {capacity}</h2>
+            <h2>Seats Left: {seatsLeft}</h2>
+          </div>
+
+          <form onSubmit={handleSubmit}>
+            <div>
+              <label>
+                Guest Count:
+                <input
+                  type="number"
+                  value={guestCount}
+                  onChange={(e) => setGuestCount(e.target.value)}
+                  required
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                Name:
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                Phone:
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  required
+                />
+              </label>
+            </div>
+            <button type="submit">Submit</button>
+          </form>
+
+          <table border="1px" style={{ margin: "auto", marginTop: "20px" }}>
+            <thead>
+              <tr>
+                <th>Count</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Check In</th>
+                <th>Check Out</th>
+                <th>Status</th>
+                <th>Remove Entry</th>
+              </tr>
+            </thead>
+            <tbody>
+              {customers.map((customer, index) => (
+                <tr key={index}>
+                  <td>{customer.count}</td>
+                  <td>{customer.name}</td>
+                  <td>{customer.phone}</td>
+                  <td>{customer.checkin}</td>
+                  <td>{customer.checkout}</td>
+                  <td>
+                    {customer.status === "Click to Checkout" ? (
+                      <button onClick={() => handleCheckout(index)}>
+                        {customer.status}
+                      </button>
+                    ) : (
+                      customer.status
+                    )}
+                  </td>
+                  <td>
+                    <button onClick={() => handleDelete(index)}>Delete</button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      );
+    };
+
+    const rootElement = ReactDOM.createRoot(document.getElementById("root"));
+    rootElement.render(<App />);
+  </script>
+</body>
+</html>
