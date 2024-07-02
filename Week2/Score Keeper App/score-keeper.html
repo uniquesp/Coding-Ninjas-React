@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.development.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <title>Score Keeper</title>
+  </head>
+
+  <body>
+    <div id="root" style="text-align: center;"></div>
+
+    <script type="text/babel">
+        
+        let score = 0;
+        let wicket = 0;
+        let ballWiseResult = [];
+
+        function addScore(num){
+          ballWiseResult.push(num);
+            score += num;
+            renderRoot();
+        }
+
+        function addwicket(num){
+          ballWiseResult.push("W");
+            if(wicket < 12){
+                wicket += 1;
+                renderRoot();
+            }
+        }
+    
+        const ScoreButtons = () => (
+            <div>
+            <button onClick = {() => addScore(0)}>0</button>
+            <button onClick = {() => addScore(1)}>1</button>
+            <button onClick = {() => addScore(2)}>2</button>
+            <button onClick = {() => addScore(3)}>3</button>
+            <button onClick = {() => addScore(4)}>4</button>
+            <button onClick = {() => addScore(5)}>5</button>
+            <button onClick = {() => addScore(6)}>6</button>
+            <button onClick = {addwicket}>Add Wicket</button>
+           </div>
+        )
+
+        const BallWiseRes = () => (
+        <div>
+          <hr />
+          {ballWiseResult.map((res, i) => (
+            <React.Fragment key={i}>
+              {i % 6 === 0 ? <br /> : null}
+              <span key={i}>
+                {res === 0 ? (
+                  <strong>. &nbsp;&nbsp;&nbsp;</strong>
+                ) : res === "W" ? (
+                  <span style={{ color: "#f00" }}>{res}&nbsp;&nbsp;&nbsp;</span>
+                ) : (
+                  <span style={{ color: "#00f" }}>{res}&nbsp;&nbsp;&nbsp;</span>
+                )}
+              </span>
+            </React.Fragment>
+          ))}
+        </div>
+      );
+      const App = () => (
+        <>
+          <hr/>
+          <h1>Score Keeper</h1>
+          <h2>Score : {score}/{wicket}</h2>
+          <ScoreButtons />     
+          <BallWiseRes />     
+        </>
+      );
+
+      const rootElement = ReactDOM.createRoot(document.getElementById("root"));
+      function renderRoot(){
+        rootElement.render(<App />);
+      }
+        renderRoot();
+
+    </script>
+  </body>
+</html>
