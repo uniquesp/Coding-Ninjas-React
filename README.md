@@ -1,4 +1,3 @@
-# Coding-Ninjas-React
 
 # Coding Ninjas Advanced Frontend React Course
 
